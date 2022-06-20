@@ -11,7 +11,7 @@ import (
 	runtimeClient "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
-func (c operatorClient) InstallPlanApprove(namespace string) error {
+func (c opcapClient) InstallPlanApprove(namespace string) error {
 
 	installPlanList := operatorv1alpha1.InstallPlanList{}
 
@@ -52,7 +52,7 @@ func (c operatorClient) InstallPlanApprove(namespace string) error {
 	return nil
 }
 
-func (c operatorClient) WaitForInstallPlan(ctx context.Context, sub *operatorv1alpha1.Subscription) error {
+func (c opcapClient) WaitForInstallPlan(ctx context.Context, sub *operatorv1alpha1.Subscription) error {
 	subKey := types.NamespacedName{
 		Namespace: sub.GetNamespace(),
 		Name:      sub.GetName(),

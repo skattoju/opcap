@@ -65,7 +65,7 @@ func Subscriptions(catalogSource string, catalogSourceNamespace string) ([]Subsc
 	return SubscriptionList, nil
 }
 
-func (c operatorClient) CreateSubscription(ctx context.Context, data SubscriptionData, namespace string) (*operatorv1alpha1.Subscription, error) {
+func (c opcapClient) CreateSubscription(ctx context.Context, data SubscriptionData, namespace string) (*operatorv1alpha1.Subscription, error) {
 	subscription := &operatorv1alpha1.Subscription{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      data.Name,
@@ -82,7 +82,7 @@ func (c operatorClient) CreateSubscription(ctx context.Context, data Subscriptio
 	return subscription, err
 }
 
-func (c operatorClient) DeleteSubscription(ctx context.Context, name string, namespace string) error {
+func (c opcapClient) DeleteSubscription(ctx context.Context, name string, namespace string) error {
 	subscription := &operatorv1alpha1.Subscription{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      name,
@@ -92,7 +92,7 @@ func (c operatorClient) DeleteSubscription(ctx context.Context, name string, nam
 	return c.Client.Delete(ctx, subscription)
 }
 
-func (c operatorClient) GetSubscription(ctx context.Context, name string, namespace string) (*operatorv1alpha1.Subscription, error) {
+func (c opcapClient) GetSubscription(ctx context.Context, name string, namespace string) (*operatorv1alpha1.Subscription, error) {
 	subscription := &operatorv1alpha1.Subscription{}
 	err := c.Client.Get(ctx, runtimeclient.ObjectKey{
 		Name:      name,

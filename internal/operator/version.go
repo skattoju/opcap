@@ -2,10 +2,11 @@ package operator
 
 import (
 	"context"
+	"os"
+
 	configv1 "github.com/openshift/client-go/config/clientset/versioned/typed/config/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/tools/clientcmd"
-	"os"
 )
 
 // getConfigClient returns a OpenShift Config clientset used to get the ClusterVersion resource
@@ -27,7 +28,7 @@ func getConfigClient() *configv1.ConfigV1Client {
 
 // GetOpenShiftVersion uses the OpenShift Config clientset to get a ClusterVersion resource which has the
 // version of an OpenShift cluster
-func (c operatorClient) GetOpenShiftVersion() (string, error) {
+func (c opcapClient) GetOpenShiftVersion() (string, error) {
 	// version is the OpenShift version of the cluster
 	var version string
 

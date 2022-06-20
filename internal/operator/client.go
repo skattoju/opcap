@@ -24,7 +24,7 @@ import (
 
 var logger = log.Sugar
 
-type Client interface {
+type Opcap interface {
 	CreateOperatorGroup(ctx context.Context, data OperatorGroupData, namespace string) (*operatorv1.OperatorGroup, error)
 	DeleteOperatorGroup(ctx context.Context, name string, namespace string) error
 	CreateSecret(ctx context.Context, name string, content map[string]string, secretType corev1.SecretType, namespace string) (*corev1.Secret, error)
@@ -38,11 +38,11 @@ type Client interface {
 	GetOpenShiftVersion() (string, error)
 }
 
-type operatorClient struct {
+type opcapClient struct {
 	Client runtimeClient.Client
 }
 
-func NewClient() (Client, error) {
+func NewClient() (Opcap, error) {
 
 	scheme := runtime.NewScheme()
 
@@ -67,7 +67,7 @@ func NewClient() (Client, error) {
 		return nil, err
 	}
 
-	var operatorClient Client = &operatorClient{
+	var operatorClient Opcap = &opcapClient{
 		Client: client,
 	}
 	return operatorClient, nil

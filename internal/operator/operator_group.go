@@ -13,7 +13,7 @@ type OperatorGroupData struct {
 	TargetNamespaces []string
 }
 
-func (o *operatorClient) CreateOperatorGroup(ctx context.Context, data OperatorGroupData, namespace string) (*operatorv1.OperatorGroup, error) {
+func (o *opcapClient) CreateOperatorGroup(ctx context.Context, data OperatorGroupData, namespace string) (*operatorv1.OperatorGroup, error) {
 	logger.Debugw("creating OperatorGroup", "operatorgroup", data.Name, "namespace", namespace)
 	operatorGroup := &operatorv1.OperatorGroup{
 		ObjectMeta: metav1.ObjectMeta{
@@ -34,7 +34,7 @@ func (o *operatorClient) CreateOperatorGroup(ctx context.Context, data OperatorG
 	return operatorGroup, nil
 }
 
-func (o *operatorClient) DeleteOperatorGroup(ctx context.Context, name string, namespace string) error {
+func (o *opcapClient) DeleteOperatorGroup(ctx context.Context, name string, namespace string) error {
 	logger.Debugw("deleting operatorgroup", "operatorgroup", name, "namespace", namespace)
 	operatorGroup := operatorv1.OperatorGroup{
 		ObjectMeta: metav1.ObjectMeta{

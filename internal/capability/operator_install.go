@@ -45,7 +45,7 @@ func OperatorInstallAllFromCatalog(catalogSource string, catalogSourceNamespace 
 	return nil
 }
 
-func OperatorInstall(s operator.SubscriptionData, c operator.Client) error {
+func OperatorInstall(s operator.SubscriptionData, c operator.Opcap) error {
 
 	logger.Debugw("installing package", "package", s.Package, "channel", s.Channel, "installmode", s.InstallModeType)
 
