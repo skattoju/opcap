@@ -13,6 +13,7 @@ import (
 
 func (c opcapClient) InstallPlanApprove(namespace string) error {
 
+	// ListInstallPlans(c client) (InstallPlanList, error)
 	installPlanList := operatorv1alpha1.InstallPlanList{}
 
 	listOpts := runtimeClient.ListOptions{
@@ -25,11 +26,14 @@ func (c opcapClient) InstallPlanApprove(namespace string) error {
 		return err
 	}
 
-	if len(installPlanList.Items) == 0 {
+	// IsListEmpty(list) (bool)
+	if IsInstallPlanListEmpty(installPlanList) {
 		logger.Errorf("no installPlan found in namespace %s: %w", namespace, err)
 		return fmt.Errorf("no installPlan found in namespace %s", fmt.Sprint(len(installPlanList.Items)))
 	}
 
+	// GetInstallPlan(c client) (InstallPlan, error)
+	// TODO: discover if there is the need to get more than one and why
 	installPlan := operatorv1alpha1.InstallPlan{}
 
 	err = c.Client.Get(context.Background(), types.NamespacedName{Name: installPlanList.Items[0].ObjectMeta.Name, Namespace: namespace}, &installPlan)
@@ -39,17 +43,34 @@ func (c opcapClient) InstallPlanApprove(namespace string) error {
 		return err
 	}
 
+	approvedInstallPlan := approvedInstallPlan(installPlan)
+	err = c.Client.Update(context.Background(), &approvedInstallPlan)
+	if err != nil {
+		logger.Errorf("Error: %w", err)
+		return err
+	}
+	logger.Debugf("%s installPlan approved in Namespace %s", installPlan.ObjectMeta.Name, namespace)
+
+	return nil
+}
+
+func IsInstallPlanListEmpty(installPlanList operatorv1alpha1.InstallPlanList) bool {
+
+	if installPlanList.Items == nil || len(installPlanList.Items) == 0 {
+		return true
+	}
+	return false
+}
+
+func approvedInstallPlan(installPlan operatorv1alpha1.InstallPlan) operatorv1alpha1.InstallPlan {
+
 	if installPlan.Spec.Approval == operatorv1alpha1.ApprovalManual {
 
 		installPlan.Spec.Approved = true
-		logger.Debugf("%s installPlan approved in Namespace %s", installPlan.ObjectMeta.Name, namespace)
-		err := c.Client.Update(context.Background(), &installPlan)
-		if err != nil {
-			logger.Errorf("Error: %w", err)
-			return err
-		}
+
 	}
-	return nil
+
+	return installPlan
 }
 
 func (c opcapClient) WaitForInstallPlan(ctx context.Context, sub *operatorv1alpha1.Subscription) error {
