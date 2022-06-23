@@ -11,7 +11,7 @@ import (
 	"k8s.io/apimachinery/pkg/watch"
 )
 
-func (c opcapClient) WaitForCsvOnNamespace(namespace string) (string, error) {
+func (c OpcapClient) WaitForCsvOnNamespace(namespace string) (string, error) {
 	ctx := context.Background()
 	var watcher watch.Interface
 

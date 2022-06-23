@@ -38,7 +38,7 @@ type Opcap interface {
 	GetOpenShiftVersion() (string, error)
 }
 
-type opcapClient struct {
+type OpcapClient struct {
 	Client runtimeClient.Client
 }
 
@@ -67,7 +67,7 @@ func NewClient() (Opcap, error) {
 		return nil, err
 	}
 
-	var operatorClient Opcap = &opcapClient{
+	var operatorClient Opcap = &OpcapClient{
 		Client: client,
 	}
 	return operatorClient, nil

@@ -28,7 +28,7 @@ func getConfigClient() *configv1.ConfigV1Client {
 
 // GetOpenShiftVersion uses the OpenShift Config clientset to get a ClusterVersion resource which has the
 // version of an OpenShift cluster
-func (c opcapClient) GetOpenShiftVersion() (string, error) {
+func (c OpcapClient) GetOpenShiftVersion() (string, error) {
 	// version is the OpenShift version of the cluster
 	var version string
 

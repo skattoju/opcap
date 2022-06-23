@@ -9,7 +9,7 @@ import (
 	runtimeClient "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
-func (o opcapClient) CreateSecret(ctx context.Context, name string, content map[string]string, secretType corev1.SecretType, namespace string) (*corev1.Secret, error) {
+func (o OpcapClient) CreateSecret(ctx context.Context, name string, content map[string]string, secretType corev1.SecretType, namespace string) (*corev1.Secret, error) {
 	secret := corev1.Secret{
 		TypeMeta: metav1.TypeMeta{
 			Kind:       "Secret",
@@ -32,7 +32,7 @@ func (o opcapClient) CreateSecret(ctx context.Context, name string, content map[
 	return &secret, nil
 }
 
-func (o opcapClient) DeleteSecret(ctx context.Context, name string, namespace string) error {
+func (o OpcapClient) DeleteSecret(ctx context.Context, name string, namespace string) error {
 	secret := corev1.Secret{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      name,

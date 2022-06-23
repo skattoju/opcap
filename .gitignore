@@ -27,6 +27,8 @@ openshift
 /.vscode
 /logs
 
-/std*.json
 report.json
 .DS_Store
+
+stderr.json
+stdout.json
