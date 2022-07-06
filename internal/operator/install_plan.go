@@ -14,7 +14,7 @@ import (
 func (c OpcapClient) InstallPlanApprove(namespace string) error {
 
 	// ListInstallPlans(c client) (InstallPlanList, error)
-	installPlanList := operatorv1alpha1.InstallPlanList{}
+	var installPlanList operatorv1alpha1.InstallPlanList
 
 	listOpts := runtimeClient.ListOptions{
 		Namespace: namespace,
@@ -34,8 +34,7 @@ func (c OpcapClient) InstallPlanApprove(namespace string) error {
 
 	// GetInstallPlan(c client) (InstallPlan, error)
 	// TODO: discover if there is the need to get more than one and why
-	installPlan := operatorv1alpha1.InstallPlan{}
-
+	var installPlan operatorv1alpha1.InstallPlan
 	err = c.Client.Get(context.Background(), types.NamespacedName{Name: installPlanList.Items[0].ObjectMeta.Name, Namespace: namespace}, &installPlan)
 
 	if err != nil {
@@ -63,11 +62,8 @@ func IsInstallPlanListEmpty(installPlanList operatorv1alpha1.InstallPlanList) bo
 }
 
 func approvedInstallPlan(installPlan operatorv1alpha1.InstallPlan) operatorv1alpha1.InstallPlan {
-
 	if installPlan.Spec.Approval == operatorv1alpha1.ApprovalManual {
-
 		installPlan.Spec.Approved = true
-
 	}
 
 	return installPlan
