@@ -16,12 +16,12 @@ func TestOperator(t *testing.T) {
 	RunSpecs(t, "Operator Suite")
 }
 
-func newFakeClient(testData []runtime.Object) operator.Opcap {
-	
+func NewFakeClient(testData []runtime.Object) operator.OpcapClient {
+
 	scheme := runtime.NewScheme()
 	operatorv1alpha1.AddToScheme(scheme)
 	client := fake.NewClientBuilder().WithRuntimeObjects(testData...).WithScheme(scheme).Build()
-	var operatorClient operator.Opcap = &operator.OpcapClient{
+	var operatorClient operator.OpcapClient = operator.OpcapClient{
 		Client: client,
 	}
 	return operatorClient

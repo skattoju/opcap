@@ -13,6 +13,7 @@ import (
 	"context"
 
 	runtimeClient "sigs.k8s.io/controller-runtime/pkg/client"
+	"sigs.k8s.io/controller-runtime/pkg/client/fake"
 
 	"os"
 
@@ -100,4 +101,15 @@ func NewOlmClientset() (*olmclient.Clientset, error) {
 	}
 
 	return olmClientset, nil
+}
+
+func NewFakeClient(testData []runtime.Object) OpcapClient {
+
+	scheme := runtime.NewScheme()
+	operatorv1alpha1.AddToScheme(scheme)
+	client := fake.NewClientBuilder().WithRuntimeObjects(testData...).WithScheme(scheme).Build()
+	var operatorClient OpcapClient = OpcapClient{
+		Client: client,
+	}
+	return operatorClient
 }
